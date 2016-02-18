@@ -5,5 +5,6 @@ return [
     'yearquarter_maxactive' => 4,
     'yearquarter_max'       => 'Z999',
     'timezone'              => 'America/Los_Angeles',
+    'app_version'           => '0.0.2',
 
 ];
