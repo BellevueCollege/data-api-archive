@@ -3,6 +3,7 @@ return [
     
     'yearquarter_lookahead' => 14,
     'yearquarter_maxactive' => 4,
+    'yearquarter_max'       => 'Z999',
     'timezone'              => 'America/Los_Angeles',
 
 ];
