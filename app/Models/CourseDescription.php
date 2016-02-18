@@ -21,7 +21,12 @@ class CourseDescription extends Model
     /** 
     * Scope to retrieve active description for a course given a YearQuarterID 
     **/
-    public function scopeActiveDescription($query, $yqr) {
+    public function scopeActiveDescription($query, $yqr = null) {
+        if ( is_null($yqr) ) {
+            $cur_yqr = YearQuarter::current()->first();
+            $yqr = $cur_yqr->YearQuarterID;
+        }
+        
         return $query->where('EffectiveYearQuarterBegin', '<=', $yqr)
             ->orderBy('EffectiveYearQuarterBegin', 'desc')
             ->take(1);

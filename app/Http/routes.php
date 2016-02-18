@@ -25,6 +25,7 @@ $app->group(['prefix' => 'v1','namespace' => 'App\Http\Controllers'], function($
         return 'Hi. Do not try to see that many courses.';
     });
   
+    $app->get('courses/multiple', 'CourseController@getMultipleCourses');
     $app->get('courses/{courseid}','CourseController@getCourse');
     
     //API endpoints specific to ModoLabs requirements

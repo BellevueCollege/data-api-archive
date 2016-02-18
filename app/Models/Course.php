@@ -96,5 +96,15 @@ class Course extends Model
          if ( empty($notes) ) return null;
          else return $notes;
      }
+     
+     /** 
+     * Scope to retrieve singular active course object as of current YearQuarter 
+     **/
+     public function scopeActive($query) {
+         $yqr = YearQuarter::current()->first();
+
+         return $query->where('EffectiveYearQuarterBegin', '<=', $yqr->YearQuarterID)
+            ->where('EffectiveYearQuarterEnd', '>=', $yqr->YearQuarterID);
+     }
 }
 ?>

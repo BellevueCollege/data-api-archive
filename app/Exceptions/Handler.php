@@ -48,16 +48,18 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         //only return prettified errors if we're not in debug mode
-        if ( !config('app.debug') ) {
+        if ( !getenv('APP_DEBUG') ) {
             
             //provide more helpful errors for most likely exception types
             if ( $e instanceof PDOException ) {
                 return response()->json(['error' => 500, 'message' => "Database unavailable."], 500);
             } elseif ( $e instanceof NotFoundHttpException ) {
                 return response()->json(['error' => $e->getStatusCode(), 'message' => $e->getMessage()?: "API path does not exist."], 404);
-            } elseif ( $e instanceof Exception ) {
-                return response()->json(['error' => 400, 'message' => $e->getMessage()?: "Misc error occurred."], 400);
-            }
+            } elseif ( $e instanceof MissingParameterException ){
+                return response()->json(['error' => 400, 'message' => $e->getMessage()?:"Invalid parameter provided."], 400);
+            } /*elseif ( $e instanceof Exception ) {
+                return response()->json(['error' => 400, 'message' => "Misc error occurred."], 400);
+            }*/
         }
         
         return parent::render($request, $e);
