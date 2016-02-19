@@ -97,6 +97,17 @@ class Course extends Model
          else return $notes;
      }
      
+     /**
+     * Get if course is a common course
+     **/
+     public function getIsCommonCourseAttribute() {
+         if ( strpos($this->CourseID, config('app.common_course_char')) === false ) {
+             return false;
+         } else {
+             return true;
+         }
+     }
+     
      /** 
      * Scope to retrieve singular active course object as of current YearQuarter 
      **/

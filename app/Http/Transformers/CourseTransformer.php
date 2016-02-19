@@ -36,12 +36,14 @@ class CourseTransformer extends TransformerAbstract {
         }
         
         return [
-            'title'         => $course->title,
-            'subject'       => $subject,
-            'courseNumber' 	=> $course_num,
-            'description'   => $cd_desc,
-            'note'          => $course->note,
-            'credits'       => $course->Credits,
+            'title'             => $course->title,
+            'subject'           => $subject,
+            'courseNumber' 	    => $course_num,
+            'description'       => $cd_desc,
+            'note'              => $course->note,
+            'credits'           => $course->Credits,
+            'isVariableCredit'  => (bool)$course->VariableCredits,
+            'isCommonCourse'    => $course->isCommonCourse,
         ];
     }
 	
