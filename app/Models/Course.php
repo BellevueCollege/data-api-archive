@@ -117,5 +117,14 @@ class Course extends Model
          return $query->where('EffectiveYearQuarterBegin', '<=', $yqr->YearQuarterID)
             ->where('EffectiveYearQuarterEnd', '>=', $yqr->YearQuarterID);
      }
+     
+     /** 
+     * Scope to retrieve singular active course object as of current YearQuarter 
+     **/
+     public function scopeActiveAsOfYearQuarter($query, $yqrid) {
+
+         return $query->where('EffectiveYearQuarterBegin', '<=', $yqrid)
+            ->where('EffectiveYearQuarterEnd', '>=', $yqrid);
+     }
 }
 ?>

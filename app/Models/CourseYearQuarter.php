@@ -19,7 +19,8 @@ class CourseYearQuarter extends Model
 	 
      
      public function course() {
-		 return $this->belongsTo('App\Models\Course', 'CourseID', 'CourseID');
+         //scope relationship to retrieve only course relevant to YearQuarter of this CourseYearQuarter
+		 return $this->belongsTo('App\Models\Course', 'CourseID', 'CourseID')->activeasofyearquarter($this->YearQuarterID);
 	 }
      
      /** 
