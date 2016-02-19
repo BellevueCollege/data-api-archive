@@ -62,7 +62,6 @@ class YearQuarterController extends ApiController {
         $now_string = $now->format("Y-m-d H:i:s");
         
         //Create lookahead date
-        $lookahead = 14;
         $la_date = $now->add(new \DateInterval('P'.$lookahead.'D'));
         $la_string = $la_date->format("Y-m-d H:i:s");
         
