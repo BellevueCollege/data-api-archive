@@ -28,6 +28,8 @@ $app->group(['prefix' => 'v1','namespace' => 'App\Http\Controllers'], function($
     $app->get('courses/multiple', 'CourseController@getMultipleCourses');
     $app->get('courses/{courseid}','CourseController@getCourse');
     
+    $app->get('quarters/current', 'YearQuarterController@getCurrentYearQuarter');
+    
     //API endpoints specific to ModoLabs requirements
     $app->get('catalog/terms', 'YearQuarterController@getViewableYearQuarters');
     $app->get('catalog/terms/{yqrid}', 'YearQuarterController@getYearQuarter');

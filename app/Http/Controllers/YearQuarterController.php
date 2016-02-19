@@ -47,6 +47,21 @@ class YearQuarterController extends ApiController {
     }
     
     /**
+    * Get current YearQuarter
+    **/
+    public function getCurrentYearQuarter() {
+        $yqr = YearQuarter::current()->first();
+        
+        $item = new Item($yqr, new YearQuarterTransformer, self::WRAPPER);
+        
+        $fractal = new Manager;
+        $fractal->setSerializer(new CustomDataArraySerializer);
+        $data = $fractal->createData($item)->toArray();
+        
+        return $this->respond($data);
+    }
+    
+    /**
     * Returns "active" YearQuarters
     **/
     public function getViewableYearQuarters() {
