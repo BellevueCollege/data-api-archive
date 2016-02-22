@@ -1,21 +1,105 @@
-## Lumen PHP Framework
+#Classes API
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/lumen-framework/v/unstable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+The Classes API is a RESTful, read-only web service for accessing CTC ODS data in JSON format.
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+##API calls
 
-## Official Documentation
+These are the current endpoints that exist.
 
-Documentation for the framework can be found on the [Lumen website](http://lumen.laravel.com/docs).
+####Main
 
-## Security Vulnerabilities
+- `v1/courses/multiple?courses[]={courseid}&courses[]={courseid}...` - Uses `courses[]` query parameter in repeating fashion to specify multiple courses for which to have information returned.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+- `v1/quarters/current` - Returns the current term/quarter.
+    
+####Modolabs-specific
 
-### License
+- `v1/catalog/terms` - Return active/viewable terms/quarters
 
-The Lumen framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+- `v1/catalog/terms/{YearQuarterID}` - Return term info for the specified term/quarter
+
+- `v1/catalog/catalogAreas/{YearQuarterID}` - Return subjects offered for specified term/quarter
+
+- `v1/catalog/{YearQuarterID}/{Subject}` - Return courses offered given specified term/quarter and subject/department
+
+- `v1/catalog/{YearQuarterID}/{Subject}/{CourseNumber}` - Return specific course offered given term/quarter, subject/department, and course number
+
+
+##Configuration
+
+####config/app.php
+
+ - `yearquarter_lookahead` - This is the number of days the application will look forward for terms/quarters with web registration opening.
+ - `yearquarter_maxactive` - The number of YearQuarters that are active/viewable at a time.
+ - `yearquarter_max` - The YearQuarterID of the maximum YearQuarter, currently set as _Z999_.
+ - `timezone` - Your timezone, e.g. America/Los_Angeles or America/Denver. Used when building dates used in comparisons.
+ - `common_course_char` - The character that designates a course as a common course.  Currently, _&_ is used in ODS (e.g. _ACCT& 201_).
+ - `app_version` - The current application version.
+
+####config/database.php
+This is where you configure the connections to ODS (_ods_) and ClassSchedule (_cs_). Set the driver, host, port, database, etc, for each but do not change the names of the connections. When using SQL Server with named instances, you will likely need to use the IP address of the named instance.
+ 
+##To do
+The existing routes/endpoints and data transformation/serialization is currently very geared toward what is required by Modolabs. This API will likely evolve to abstract the transformation/serialization of the data from the controller functions that gather the data. In this way there is flexibility to have data wrapped and presented differently depending on the type of endpoint/call. 
+
+##Terminology
+
+###YearQuarter
+
+A YearQuarter is used in the ODS and API to represent a quarter. Modolabs calls it a _term_. Data members of YearQuarter objects returned by the API.
+
+####Modolabs
+- `code` _string_
+- `description` _string_
+
+###Subject
+
+A Subject is used in the ODS and API to represent a subject area courses are offered in.  Modolabs calls it a course area or area.
+
+####Modolabs
+- `area` _string_
+- `code` _string_
+
+###Course
+
+A Course is general information about a course, non-specific to a quarter.
+
+- `title` _string_
+- `subject` _string_
+- `courseNumber` _string_
+- `description` _string_
+- `note` _string_
+- `credits` _string_
+- `isVariableCredit` _bool_
+- `isCommonCourse` _bool_ 
+
+###CourseYearQuarter
+
+A CourseYearQuarter is an offering of a course in a YearQuarter. ODS uses the term "Class" to hold this data, but that terminology is problematic in software.
+
+####Modolabs
+
+- `title` _string_
+- `subject` _string_
+- `courseNumber` _string_
+- `description` _string_
+- `note` _string_
+- `credits` _string_
+- `isVariableCredit` _bool_
+- `isCommonCourse` _bool_ 
+- `sections` _Section[]_
+
+###Section
+
+A Section is a section offering of a CourseYearQuarter. 
+
+####Modolabs
+
+- `crn` _string_
+- `courseSection` _string_
+- `instructor` _string_
+- `beginDate` _string_ (datetime)
+- `endDate` _string_ (datetime)
+- `room` _string_
+- `schedule` _string_
+
