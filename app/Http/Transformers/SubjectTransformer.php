@@ -15,7 +15,7 @@ class SubjectTransformer extends TransformerAbstract {
     {
         return [
             'area'  =>  $sub->Slug,
-            'name'  =>  $sub->Title,
+            'name'  =>  $sub->SubjectTitle,
         ];
     }
 	
