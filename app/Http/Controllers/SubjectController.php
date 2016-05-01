@@ -21,11 +21,15 @@ class SubjectController extends ApiController{
   **/
   public function index(Manager $fractal){
         $subjects  = Subject::all();
-        $collection = new Collection($subjects, new SubjectTransformer, self::WRAPPER);
+        
+        $data = $subjects;
+        if ( !is_null($subjects) ) {
+            $collection = new Collection($subjects, new SubjectTransformer, self::WRAPPER);
 
-        $fractal->setSerializer(new CustomDataArraySerializer);
-        $data = $fractal->createData($collection)->toArray();
-
+            $fractal->setSerializer(new CustomDataArraySerializer);
+            $data = $fractal->createData($collection)->toArray();
+        }
+        
         return $this->respond($data);
     }
   
@@ -35,12 +39,17 @@ class SubjectController extends ApiController{
     public function getSubject($slug){
   
         $subject  = Subject::where('Slug', '=', $slug)->first();
-        $item = new Item($subject, new SubjectTransformer, self::WRAPPER);
-
-        $fractal = new Manager;
         
-        $fractal->setSerializer(new CustomDataArraySerializer);
-        $data = $fractal->createData($item)->toArray();
+        $data = $subject;
+        //handle gracefully if null
+        if( !is_null($subject) ) {
+            $item = new Item($subject, new SubjectTransformer, self::WRAPPER);
+
+            $fractal = new Manager;
+        
+            $fractal->setSerializer(new CustomDataArraySerializer);
+            $data = $fractal->createData($item)->toArray();
+        }
         
         return $this->respond($data);
     }
@@ -62,14 +71,17 @@ class SubjectController extends ApiController{
          //$queries = DB::connection('cs')->getQueryLog();
          //dd($queries);  
 
-         //When using the Eloquent query builder, we must "hydrate" the results back to collection of objects
-         $subjects_hydrated = Subject::hydrate($subjects);
-         $collection = new Collection($subjects_hydrated, new SubjectTransformer, self::WRAPPER);
+         $data = $subjects;
+         if ( !is_null($subjects) ) {
+            //When using the Eloquent query builder, we must "hydrate" the results back to collection of objects
+            $subjects_hydrated = Subject::hydrate($subjects);
+            $collection = new Collection($subjects_hydrated, new SubjectTransformer, self::WRAPPER);
          
-         //set data serializer
-         $fractal = new Manager;
-         $fractal->setSerializer(new CustomDataArraySerializer);
-         $data = $fractal->createData($collection)->toArray();
+            //set data serializer
+            $fractal = new Manager;
+            $fractal->setSerializer(new CustomDataArraySerializer);
+            $data = $fractal->createData($collection)->toArray();
+         }
 
          return $this->respond($data);
     }

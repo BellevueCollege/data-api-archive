@@ -18,6 +18,8 @@ class CourseController extends ApiController{
     
     /** 
      Get all courses. This should probably never be used.
+     Status: inactive
+     No active route exists.
     **/
     public function index(){
   
@@ -27,7 +29,9 @@ class CourseController extends ApiController{
     }
   
     /**
-     Get a course based on a given CourseID
+     Get a course based on a given CourseID. 
+     Status: inactive
+     Not currently routed.
     **/
     public function getCourse($courseid){
   
@@ -60,12 +64,15 @@ class CourseController extends ApiController{
             //$queries = DB::connection('ods')->getQueryLog();
             //dd($queries); 
 
-            $collection = new Collection($courses, new CourseTransformer, self::WRAPPER);
+            $data = $courses;
+            if ( !is_null($courses) ) {
+                $collection = new Collection($courses, new CourseTransformer, self::WRAPPER);
          
-            //define serializer
-            $fractal = new Manager;
-            $fractal->setSerializer(new CustomDataArraySerializer);
-            $data = $fractal->createData($collection)->toArray();
+                //define serializer
+                $fractal = new Manager;
+                $fractal->setSerializer(new CustomDataArraySerializer);
+                $data = $fractal->createData($collection)->toArray();
+            }
             
             return $this->respond($data);
         } else {
