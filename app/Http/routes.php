@@ -21,12 +21,12 @@ $app->group(['prefix' => 'v1','namespace' => 'App\Http\Controllers'], function($
   
     $app->get('subject/{slug}','SubjectController@getSubject');
     
-    $app->get('courses', function () use ($app) { 
+    /*$app->get('courses', function () use ($app) { 
         return 'Hi. Do not try to see that many courses.';
-    });
+    });*/
   
     $app->get('courses/multiple', 'CourseController@getMultipleCourses');
-    $app->get('courses/{courseid}','CourseController@getCourse');
+    //$app->get('courses/{courseid}','CourseController@getCourse');
     
     $app->get('quarters/current', 'YearQuarterController@getCurrentYearQuarter');
     

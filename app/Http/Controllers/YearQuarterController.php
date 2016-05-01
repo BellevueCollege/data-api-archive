@@ -18,6 +18,8 @@ class YearQuarterController extends ApiController {
   
   /**
   * Return all YearQuarters
+  * Status: inactive
+  * No active route. No set serialization.
   **/
   public function index(){
   
@@ -37,11 +39,15 @@ class YearQuarterController extends ApiController {
     public function getYearQuarter($yqrid){
   
         $yqr = YearQuarter::where('YearQuarterID', '=', $yqrid)->first();
-  
-        $item = new Item($yqr, new YearQuarterTransformer, self::WRAPPER);
-        $fractal = new Manager;
-        $fractal->setSerializer(new CustomDataArraySerializer);
-        $data = $fractal->createData($item)->toArray();
+        
+        $data = $yqr;
+        //only serialize if not empty
+        if ( !is_null($yqr) ) {
+            $item = new Item($yqr, new YearQuarterTransformer, self::WRAPPER);
+            $fractal = new Manager;
+            $fractal->setSerializer(new CustomDataArraySerializer);
+            $data = $fractal->createData($item)->toArray();
+        }
         
         return $this->respond($data);
     }
@@ -52,11 +58,15 @@ class YearQuarterController extends ApiController {
     public function getCurrentYearQuarter() {
         $yqr = YearQuarter::current()->first();
         
-        $item = new Item($yqr, new YearQuarterTransformer, self::WRAPPER);
+        $data = $yqr;
+        //only serialize if not empty
+        if ( !is_null($yqr) ) {
+            $item = new Item($yqr, new YearQuarterTransformer, self::WRAPPER);
         
-        $fractal = new Manager;
-        $fractal->setSerializer(new CustomDataArraySerializer);
-        $data = $fractal->createData($item)->toArray();
+            $fractal = new Manager;
+            $fractal->setSerializer(new CustomDataArraySerializer);
+            $data = $fractal->createData($item)->toArray();
+        }
         
         return $this->respond($data);
     }
@@ -108,15 +118,18 @@ class YearQuarterController extends ApiController {
             ->get();
          //$queries = DB::connection('ods')->getQueryLog();
          //dd($queries);  
-
+         //var_dump($yqrs);
          //When using the Eloquent query builder, we must "hydrate" the results back to collection of objects
-         $yqr_hydrated = YearQuarter::hydrate($yqrs);
-         $collection = new Collection($yqr_hydrated, new YearQuarterTransformer, self::WRAPPER);
+         $data = $yqrs;
+         if ( !is_null($yqrs)) {
+            $yqr_hydrated = YearQuarter::hydrate($yqrs);
+            $collection = new Collection($yqr_hydrated, new YearQuarterTransformer, self::WRAPPER);
          
-         //Set data serializer
-         $fractal = new Manager;
-         $fractal->setSerializer(new CustomDataArraySerializer);
-         $data = $fractal->createData($collection)->toArray();
+            //Set data serializer
+            $fractal = new Manager;
+            $fractal->setSerializer(new CustomDataArraySerializer);
+            $data = $fractal->createData($collection)->toArray();
+         }
 
          return $this->respond($data);
     }

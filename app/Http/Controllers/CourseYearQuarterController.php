@@ -27,15 +27,20 @@ class CourseYearQuarterController extends ApiController {
             ->where('Department', '=', $subjectid)
             ->where('CourseNumber', '=', $coursenum)
             ->first();
-        $queries = DB::connection('ods')->getQueryLog();
+        //$queries = DB::connection('ods')->getQueryLog();
         //dd($queries);
         //var_dump($cyq);
-        $item = new Item($cyq, new CourseYearQuarterTransformer, self::WRAPPER);
+        $data = $cyq;
+        
+        //handle gracefully if null
+        if ( !is_null($cyq) ) {
+            $item = new Item($cyq, new CourseYearQuarterTransformer, self::WRAPPER);
          
-        //define serializer
-        $fractal = new Manager;
-        $fractal->setSerializer(new CustomDataArraySerializer);
-        $data = $fractal->createData($item)->toArray();
+            //define serializer
+            $fractal = new Manager;
+            $fractal->setSerializer(new CustomDataArraySerializer);
+            $data = $fractal->createData($item)->toArray();
+        }
          
         return $this->respond($data);
     }
@@ -46,7 +51,7 @@ class CourseYearQuarterController extends ApiController {
     public function getCourseYearQuartersBySubject($yqrid, $subjectid) {
 
         //DB::connection('cs')->enableQueryLog();
-        $cyqs = DB::connection('cs')
+        $cyqs = DB::connection('ods')
             ->table('vw_Class')
             ->where('YearQuarterID', '=', $yqrid)
             ->where('Department', '=', $subjectid)
@@ -57,17 +62,21 @@ class CourseYearQuarterController extends ApiController {
         
          //$queries = DB::connection('cs')->getQueryLog();
          //dd($queries);  
+        
+        $data = $cyqs;
+        
+        if ( !is_null($cyqs) ) {
+            //When using the Eloquent query builder, we must "hydrate" the results back to collection of objects
+            $cyqs_hydrated = CourseYearQuarter::hydrate($cyqs);
+            $collection = new Collection($cyqs_hydrated, new CourseYearQuarterTransformer, self::WRAPPER);
          
-         //When using the Eloquent query builder, we must "hydrate" the results back to collection of objects
-         $cyqs_hydrated = CourseYearQuarter::hydrate($cyqs);
-         $collection = new Collection($cyqs_hydrated, new CourseYearQuarterTransformer, self::WRAPPER);
-         
-         //define serializer
-         $fractal = new Manager;
-         $fractal->setSerializer(new CustomDataArraySerializer);
-         $data = $fractal->createData($collection)->toArray();
+            //define serializer
+            $fractal = new Manager;
+            $fractal->setSerializer(new CustomDataArraySerializer);
+            $data = $fractal->createData($collection)->toArray();
+        }
 
-         return $this->respond($data);
+        return $this->respond($data);
     }
 }
 ?>

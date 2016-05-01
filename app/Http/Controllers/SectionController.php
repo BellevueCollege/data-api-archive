@@ -31,6 +31,8 @@ class SectionController extends ApiController{
 	
     /**
     * Return sections based on given YearQuarterID, department/subject, and course number.
+    * Status: inactive
+    * No route, not yet serialized
     **/
 	public function getSections($yqrid, $dept, $coursenum){
   
