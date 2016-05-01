@@ -57,9 +57,9 @@ class Handler extends ExceptionHandler
                 return response()->json(['error' => $e->getStatusCode(), 'message' => $e->getMessage()?: "API path does not exist."], 404);
             } elseif ( $e instanceof MissingParameterException ){
                 return response()->json(['error' => 400, 'message' => $e->getMessage()?:"Invalid parameter provided."], 400);
-            } /*elseif ( $e instanceof Exception ) {
+            } elseif ( $e instanceof Exception ) {
                 return response()->json(['error' => 400, 'message' => "Misc error occurred."], 400);
-            }*/
+            }
         }
         
         return parent::render($request, $e);
