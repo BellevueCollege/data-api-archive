@@ -64,7 +64,7 @@ class SubjectController extends ApiController{
             ->table('vw_SubjectDetails')
             ->join('vw_Class', 'vw_SubjectDetails.Slug', '=', 'vw_Class.Department')
             ->where('vw_Class.YearQuarterID', '=', $yqr)
-            ->select('vw_SubjectDetails.Slug', 'vw_SubjectDetails.SubjectTitle')
+            ->select('vw_SubjectDetails.Slug', 'vw_SubjectDetails.SubjectTitle as Title')
             ->groupBy('vw_SubjectDetails.Slug', 'vw_SubjectDetails.SubjectTitle')
             ->orderBy('vw_SubjectDetails.Slug', 'asc')
             ->get();
