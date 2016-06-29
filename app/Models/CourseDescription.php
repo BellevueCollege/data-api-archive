@@ -12,6 +12,7 @@ class CourseDescription extends Model
      /**
      * Definition for Course parent relationship
      * This inverse relationship isn't used, so it's commented out to reduce eager loading
+     */
      /*
      public function course() {
         return $this->belongsTo('App\Models\Course', 'CourseID', 'CourseID');
