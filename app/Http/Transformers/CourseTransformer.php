@@ -42,7 +42,7 @@ class CourseTransformer extends TransformerAbstract {
             'description'       => $cd_desc,
             'note'              => $course->note,
             'credits'           => $course->Credits,
-            'isVariableCredit'  => (bool)$course->VariableCredits,
+            'isVariableCredits'  => (bool)$course->VariableCredits,
             'isCommonCourse'    => $course->isCommonCourse,
         ];
     }
