@@ -53,7 +53,7 @@ class SubjectControllerTest extends TestCase
         //try invalid subject, should return empty json
         $response = $this->call('GET', '/v1/subject/xyzsdf');
         
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(200, $this->response->getStatusCode());
     }
 
     public function testGetSubjectsByYearQuarter() 

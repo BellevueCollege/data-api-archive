@@ -24,7 +24,7 @@ class YearQuarterControllerTest extends TestCase
                 'code' => 'B563', 
                 'description' => 'Win 2016'
             ]);
-        $this->assertEquals(200, $this->response->status());
+        $this->assertEquals(200, $this->response->getStatusCode());
           
         $this->get('/v1/catalog/terms/B671')
             ->seeJson([
@@ -32,21 +32,21 @@ class YearQuarterControllerTest extends TestCase
                 'description' => 'Sum 2016'
             ]);
             
-       $this->assertEquals(200, $this->response->status());
+       $this->assertEquals(200, $this->response->getStatusCode());
     }
     
     public function testGetYearQuarterBadYQR() {
        //should return empty object so don't need to check json, just need to make sure it doesn't error
        $this->get('/v1/catalog/terms/xysdf');
        
-       $this->assertEquals(200, $this->response->status()); 
+       $this->assertEquals(200, $this->response->getStatusCode()); 
     }
     
     public function testGetCurrentYearQuarter() {
         //test valid YQR
         $response = $this->call('GET', 'v1/quarters/current');
         
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(200, $this->response->getStatusCode());
         
         //var_dump($response->content());
     }
@@ -55,7 +55,7 @@ class YearQuarterControllerTest extends TestCase
         //test endpoint to get viewable YQRs
         $response = $this->call('GET', 'v1/catalog/terms');
         
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(200, $this->response->getStatusCode());
         
         //var_dump($response->content());
     }

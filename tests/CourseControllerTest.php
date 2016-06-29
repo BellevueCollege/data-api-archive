@@ -23,8 +23,8 @@ class CourseControllerTest extends TestCase
     public function testGetMultipleCourses() {
         //valid course numbers
         $this->get('v1/courses/multiple', [ 'courses[]' => 'ACCT 101', 'courses[]' => 'BTS 293', 'courses[]' => 'ADFIT 020' ]);
-        
-        $this->assertEquals(200, $this->response->status());
+        //var_dump($this->response->getStatusCode());
+        $this->assertEquals(200, $this->response->getStatusCode());
         
     }
     
@@ -32,13 +32,13 @@ class CourseControllerTest extends TestCase
         //should return empty object so don't need to check json, just need to make sure it doesn't error
         $this->get('v1/courses/multiple', [ 'courses[]' => 'XYZ 101', 'courses[]' => 'BTS 293', 'courses[]' => 'ADFIT 020' ]);
         
-        $this->assertEquals(200, $this->response->status());
+        $this->assertEquals(200, $this->response->getStatusCode());
     }
     
     public function testGetMultipleCoursesNoResults() {
         //should return empty object so don't need to check json, just need to make sure it doesn't error
         $this->get('v1/courses/multiple', [ 'courses[]' => 'XYZ 101', 'courses[]' => 'ABC 123', 'courses[]' => 'RTD 321' ]);
         
-        $this->assertEquals(200, $this->response->status());
+        $this->assertEquals(200, $this->response->getStatusCode());
     }
 }
