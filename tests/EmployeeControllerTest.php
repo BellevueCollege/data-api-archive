@@ -7,9 +7,9 @@ class EmployeeControllerTest extends TestCase
     
     public function testGetEmployeeByUsername() {
         //valid employee username
-        $response = $this->call('GET', "/v1/employee/nicole.swan");
+        $this->get('/v1/employee/nicole.swan');
         //var_dump($response);
-        $this->assertEquals(200, $response->status());
+        $this->assertEquals(200, $this->response->status());
         
     }
     
