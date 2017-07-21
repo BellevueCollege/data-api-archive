@@ -5,3 +5,6 @@ Homestead.json
 Homestead.yaml
 .env
 .DS_Store
+config/auth.php
+config/database.php
+config/jwt.php
