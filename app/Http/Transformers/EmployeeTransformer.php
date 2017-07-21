@@ -18,7 +18,7 @@ class EmployeeTransformer extends TransformerAbstract {
             'firstName' 	=> $emp->FirstName,
             'lastName'      => $emp->LastName,
             'aliasName'     => $emp->AliasName,
-            'email'  => $emp->WorkEmail,
+            'email'         => $emp->WorkEmail,
             'phone'         => $emp->WorkPhoneNumber,
             'username'      => $emp->ADUserName
         ];

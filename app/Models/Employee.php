@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model //implements AuthenticatableContract, AuthorizableContract
 {
     //use Authenticatable, Authorizable;
+     protected $connection = 'ods';
      protected $table = 'vw_Employee';
      protected $primaryKey = 'SID';
      public $timestamps = false;

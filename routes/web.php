@@ -17,10 +17,19 @@ $app->get('/', function () use ($app) {
 
 $app->group(['prefix' => 'v1'], function($app)
 {
-    //$app->get('subject','SubjectController@index');
-  
+    $app->post('auth/login', 'AuthController@loginPost');
+});
+
+/*$app->group(['prefix' => 'v1'], function ($app)
+{  
     $app->get('employee/{username}','EmployeeController@getEmployeeByUsername');
 
     $app->get('student/{username}','StudentController@getStudentByUsername');
+});*/
 
+$app->group(['prefix' => 'v1', 'middleware' => 'auth'], function ($app)
+{  
+    $app->get('employee/{username}','EmployeeController@getEmployeeByUsername');
+
+    $app->get('student/{username}','StudentController@getStudentByUsername');
 });

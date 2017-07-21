@@ -1,0 +1,26 @@
+<?php
+return [
+    
+    'default' => 'da',
+	'migrations' => 'migrations',
+    'connections' => [
+        'da' => [
+            'driver'    => '',
+            'host'      => '',
+            'port'      => '',
+            'database'  => '',
+            'username'  => '',
+            'password'  => '',
+            'prefix'    => '',
+        ],
+        'ods' => [
+            'driver'    => '',
+            'host'      => '',
+            'port'      => '',
+            'database'  => '',
+            'username'  => '',
+            'password'  => '',
+            'prefix'    => '',
+        ],
+    ],
+];

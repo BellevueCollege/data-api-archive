@@ -11,9 +11,19 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+/*$factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
+    ];
+});*/
+use Illuminate\Support\Facades\Hash;
+
+$factory->define(App\Models\Client::class, function (Faker\Generator $faker) {
+    return [
+        'clientname' => $faker->name,
+        'clientid' => $faker->uuid(),
+        'clienturl' => $faker->url(),
+        'password' => Hash::make('9b1d89ea-02bf-11e7-93ae-92361f002671'),
     ];
 });
