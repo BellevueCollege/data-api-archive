@@ -8,3 +8,4 @@ Homestead.yaml
 config/auth.php
 config/database.php
 config/jwt.php
+config/app.php
