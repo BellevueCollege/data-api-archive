@@ -24,13 +24,13 @@ The Data API is a RESTful, read-only web service for accessing Bellevue College 
 
 ### People data
 
-- `v1/auth/login` - The endpoint to authenticate and retrieve a valid token so protected endpoint can be used.
+- `v1/auth/login` - The endpoint to authenticate and retrieve a valid token so protected data endpoints can be used.
 
 - `v1/employee/{username}` - Return basic employee information given a username _(protected)_
 
 - `v1/student/{username}` - Return basic student information given a username _(protected)_
 
-##Configuration
+## Configuration
 
 #### config/app.php
 
@@ -68,7 +68,7 @@ Example `curl` authentication:
 curl -i https://localhost/v1/auth/login -d clientid={clientid} -d clientkey={clientkey}
 ```
 
-Example WordPress/PHP authenticaiton:
+Example WordPress/PHP authentication:
 
 ```php
 $body = array('clientid' => $clientid, 'clientkey' => $clientkey);
