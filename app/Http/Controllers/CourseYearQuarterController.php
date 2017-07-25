@@ -65,9 +65,9 @@ class CourseYearQuarterController extends ApiController {
         
         $data = $cyqs;
         
-        if ( !is_null($cyqs) ) {
+        if ( !is_null($cyqs) && !$cyqs->isEmpty() ) {
             //When using the Eloquent query builder, we must "hydrate" the results back to collection of objects
-            $cyqs_hydrated = CourseYearQuarter::hydrate($cyqs);
+            $cyqs_hydrated = CourseYearQuarter::hydrate($cyqs->toArray());
             $collection = new Collection($cyqs_hydrated, new CourseYearQuarterTransformer, self::WRAPPER);
          
             //define serializer

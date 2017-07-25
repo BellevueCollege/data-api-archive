@@ -72,9 +72,9 @@ class SubjectController extends ApiController{
          //dd($queries);  
 
          $data = $subjects;
-         if ( !is_null($subjects) ) {
+         if ( !is_null($subjects) && !$subjects->isEmpty() ) {
             //When using the Eloquent query builder, we must "hydrate" the results back to collection of objects
-            $subjects_hydrated = Subject::hydrate($subjects);
+            $subjects_hydrated = Subject::hydrate($subjects->toArray());
             $collection = new Collection($subjects_hydrated, new SubjectTransformer, self::WRAPPER);
          
             //set data serializer

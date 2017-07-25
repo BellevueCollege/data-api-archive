@@ -119,12 +119,14 @@ class YearQuarterController extends ApiController {
          //$queries = DB::connection('ods')->getQueryLog();
          //dd($queries);  
          //var_dump($yqrs);
+         
          //When using the Eloquent query builder, we must "hydrate" the results back to collection of objects
          $data = $yqrs;
-         if ( !is_null($yqrs)) {
-            $yqr_hydrated = YearQuarter::hydrate($yqrs);
+
+         if ( !empty($yqrs) && !$yqrs->isEmpty() ) {
+            $yqr_hydrated = YearQuarter::hydrate($yqrs->toArray());
             $collection = new Collection($yqr_hydrated, new YearQuarterTransformer, self::WRAPPER);
-         
+
             //Set data serializer
             $fractal = new Manager;
             $fractal->setSerializer(new CustomDataArraySerializer);
