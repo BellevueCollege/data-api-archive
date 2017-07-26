@@ -64,7 +64,7 @@ Some of the data endpoints are protected and require authentication to use. If y
 
 Example `curl` authentication:
 
-```
+```console
 curl -i https://localhost/v1/auth/login -d clientid={clientid} -d clientkey={clientkey}
 ```
 
@@ -82,13 +82,13 @@ A web token will be returned to you with a successful login. Include this bearer
 
 Example `curl` request with token:
 
-```
+```console
 curl -H "Authorization: Bearer {token}" https://localhost/v1/student/student.test
 ```
 
 Example WordPress/PHP request with token:
 
-```
+```php
 $headers = array('Authorization' => 'Bearer ' . $token);
 
 $resp = wp_remote_get( 'https://localhost/v1/student/student.test', array( 'headers' => $headers, 'sslverify' => true ) );
