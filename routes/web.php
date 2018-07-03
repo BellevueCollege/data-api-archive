@@ -11,36 +11,36 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return $app->version();
+$router->get('/', function () use ($router) {
+    return $router->app->version();
 });
 
 /*** Unprotected data endpoints ***/
-$app->group(['prefix' => 'v1'], function($app)
+$router->group(['prefix' => 'v1'], function () use ($router)
 {
-    $app->post('auth/login', 'AuthController@loginPost');
+    $router->post('auth/login', 'AuthController@loginPost');
 
-    $app->get('subject','SubjectController@index');
+    $router->get('subject','SubjectController@index');
   
-    $app->get('subject/{slug}','SubjectController@getSubject');
+    $router->get('subject/{slug}','SubjectController@getSubject');
       
-    $app->get('courses/multiple', 'CourseController@getMultipleCourses');
-    //$app->get('courses/{courseid}','CourseController@getCourse');
+    $router->get('courses/multiple', 'CourseController@getMultipleCourses');
+    //$router->get('courses/{courseid}','CourseController@getCourse');
     
-    $app->get('quarters/current', 'YearQuarterController@getCurrentYearQuarter');
+    $router->get('quarters/current', 'YearQuarterController@getCurrentYearQuarter');
     
     //API endpoints specific to ModoLabs requirements
-    $app->get('catalog/terms', 'YearQuarterController@getViewableYearQuarters');
-    $app->get('catalog/terms/{yqrid}', 'YearQuarterController@getYearQuarter');
-    $app->get('catalog/catalogAreas/{yqrid}', 'SubjectController@getSubjectsByYearQuarter');
-    $app->get('catalog/{yqrid}/{subjectid}', 'CourseYearQuarterController@getCourseYearQuartersBySubject');
-    $app->get('catalog/{yqrid}/{subjectid}/{coursenum}', 'CourseYearQuarterController@getCourseYearQuarter');
+    $router->get('catalog/terms', 'YearQuarterController@getViewableYearQuarters');
+    $router->get('catalog/terms/{yqrid}', 'YearQuarterController@getYearQuarter');
+    $router->get('catalog/catalogAreas/{yqrid}', 'SubjectController@getSubjectsByYearQuarter');
+    $router->get('catalog/{yqrid}/{subjectid}', 'CourseYearQuarterController@getCourseYearQuartersBySubject');
+    $router->get('catalog/{yqrid}/{subjectid}/{coursenum}', 'CourseYearQuarterController@getCourseYearQuarter');
 });
 
 /*** Protected data endpoints ***/
-$app->group(['prefix' => 'v1', 'middleware' => 'auth'], function ($app)
+$router->group(['prefix' => 'v1', 'middleware' => 'auth'], function () use ($router)
 {  
-    $app->get('employee/{username}','EmployeeController@getEmployeeByUsername');
+    $router->get('employee/{username}','EmployeeController@getEmployeeByUsername');
 
-    $app->get('student/{username}','StudentController@getStudentByUsername');
+    $router->get('student/{username}','StudentController@getStudentByUsername');
 });
