@@ -100,8 +100,13 @@ class_alias('Tymon\JWTAuth\Facades\JWTFactory', 'JWTFactory');
 |
 */
 
-$app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
+$app->router->group([
+    'namespace' => 'App\Http\Controllers',
+], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
+/*$app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
+    require __DIR__.'/../routes/web.php';
+});*/
 
 return $app;
